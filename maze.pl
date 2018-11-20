@@ -1,6 +1,7 @@
 % reference for dodecahedron vertex numbering scheme:
 % https://www.researchgate.net/figure/Numbering-scheme-for-the-vertices-of-the-dodecahedron-graph_fig1_234956394
 
+
 room(1, 'Ocean of Dreams').
 room(2, 'Field of Doom').
 room(3, 'The Chasm').
@@ -21,6 +22,7 @@ room(17, 'Cocytus').
 room(18, 'Oceanus').
 room(19, 'Tartarus').
 room(20, 'Elysium').
+
 
 connected(1, 6).
 connected(6, 1).

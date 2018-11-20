@@ -1,9 +1,11 @@
 :- [maze].
+:- [obstacles].
 :- use_module(library(random)).
 
 :- prompt(_, 'Pick an adjacent room to explore: ').
 :- dynamic current_room/1.
 
+get_input :- read(Input), get_input(Input), nl.
 get_input(Input) :- process_input(Input), get_input.
 
 process_input(NewRoom) :-
@@ -32,14 +34,14 @@ print_room :-
     print(NewRoom2), nl,
     print(NewRoom3), nl.
 
+generate_pits :- random_between(1, 20, Y),
+    bottomless_pit(Y).
 
 change_room(NewRoom) :-
     current_room(Current),
     retract(current_room(Current)),
     assertz(current_room(NewRoom)),
     game_over_check.
-
-bottomless_pit(6).
 
 fall_into_pit :-
     bottomless_pit(Current),
@@ -51,9 +53,9 @@ game_over_check :-
     write("Game Over"), nl,
     abort.
 
-
 play :-
     retractall(current_room(_)),
+    % generate random starting point
     random_between(1, 20, X),
     assertz(current_room(X)),
     print_room,
