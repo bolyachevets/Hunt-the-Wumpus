@@ -8,10 +8,12 @@ For now you can traverses the adjacent vertices of dodecahedron by selecting an 
 TODO (feel free to add new items and break existing ones into more steps):
 
 - Handle erroneous input, e.g, room number not followed by a period
-- When shutting down Prolog SWI, program crashes, if we has not exited first
+- When shutting down Prolog SWI, program crashes, if we has not exited first -- perhaps game loop needs to be reworked
 
-- Randomize pit locations
-- Add bats (and randomly allocate them to the map)
+- Figure out how to randomize obstacle location on new instance of the game
+- i.e., Randomize pit, bat, wumpus locations
+
+- Add bats
 - add senses for hunter (e.g, 'i hear a flapping' when close to bats, or 'i feel a breeze' when close to a pit).
 
 - add wumpus (wumpus should be randomly assigned to a room on start and be startled by nearby shot, i.e., move towards the hunter)and bow&arrows
