@@ -34,9 +34,6 @@ print_room :-
     print(NewRoom2), nl,
     print(NewRoom3), nl.
 
-generate_pits :- random_between(1, 20, Y),
-    bottomless_pit(Y).
-
 change_room(NewRoom) :-
     current_room(Current),
     retract(current_room(Current)),
