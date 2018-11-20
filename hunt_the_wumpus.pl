@@ -38,7 +38,14 @@ change_room(NewRoom) :-
     current_room(Current),
     retract(current_room(Current)),
     assertz(current_room(NewRoom)),
-    game_over_check.
+    game_over_check; bat_attack.
+
+bat_attack :-
+    bat_cave(Current),
+    current_room(Current),
+    write("The bats have lifted you off the ground..."), nl,
+    random_between(1, 20, X),
+    change_room(X).
 
 fall_into_pit :-
     bottomless_pit(Current),
