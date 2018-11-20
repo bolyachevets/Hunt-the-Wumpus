@@ -1,5 +1,4 @@
 :- [maze].
-:- use_module(library(readln)).
 :- use_module(library(random)).
 
 :- prompt(_, 'Pick an adjacent room to explore: ').
