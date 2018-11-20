@@ -1,5 +1,5 @@
 # Hunt-the-Wumpus
-Hunt the Wampus in Prolog: a group project for cpsc 312
+Hunt the Wumpus in Prolog: a group project for cpsc 312
 
 To start type: play.
 
