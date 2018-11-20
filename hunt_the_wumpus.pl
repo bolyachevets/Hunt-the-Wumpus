@@ -1,9 +1,9 @@
 :- [maze].
 :- use_module(library(readln)).
+:- use_module(library(random)).
 
 :- prompt(_, 'Pick an adjacent room to explore: ').
 :- dynamic current_room/1.
-
 
 get_input :- read(Input),get_input(Input), nl.
 get_input(Input) :- process_input(Input), get_input.
@@ -43,6 +43,7 @@ change_room(NewRoom) :-
 
 play :-
     retractall(current_room(_)),
-    assertz(current_room(1)),
+    random_between(1, 20, X),
+    assertz(current_room(X)),
     print_room,
     get_input.
