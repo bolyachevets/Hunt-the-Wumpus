@@ -4,7 +4,6 @@
 :- prompt(_, 'Pick an adjacent room to explore: ').
 :- dynamic current_room/1.
 
-get_input :- read(Input),get_input(Input), nl.
 get_input(Input) :- process_input(Input), get_input.
 
 process_input(NewRoom) :-
@@ -12,7 +11,7 @@ process_input(NewRoom) :-
     connected(Current, NewRoom),
     change_room(NewRoom).
 
-process_input(_) :- print('Pick a valid room number from the 3 listed'), nl.
+process_input(_) :- print_room, nl.
 
 % prints out current room name and adjacent room names
 print_room :-
@@ -38,7 +37,20 @@ change_room(NewRoom) :-
     current_room(Current),
     retract(current_room(Current)),
     assertz(current_room(NewRoom)),
-    print_room.
+    game_over_check.
+
+bottomless_pit(6).
+
+fall_into_pit :-
+    bottomless_pit(Current),
+    current_room(Current),
+    write("You have fallen into the bottomless pit..."), nl.
+
+game_over_check :-
+    fall_into_pit,
+    write("Game Over"), nl,
+    abort.
+
 
 play :-
     retractall(current_room(_)),
