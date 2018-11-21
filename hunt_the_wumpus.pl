@@ -23,19 +23,24 @@ process_input(NewRoom) :-
 process_input(_) :- print_room, nl.
 
 play :-
+    % purge the KB
     retractall(current_room(_)),
+    retractall(wumpus(_)),
+    retractall(target(_)),
+    retractall(current_room(_)),
+
     % assign a dummy room at the start
     assertz(current_room(999)),
-    assert(target(999)),
+    assertz(target(999)),
     % generate random starting point
     random_between(1, 20, X),
     % pseudo random number for Wumpus, 'using' LCG algorithm
     % make sure that Wumpus does not start in the same room
     W is (mod(X*37, 20) + 1),
     % add location for Wumpus into KB
-    assert(wumpus(W)),
+    assertz(wumpus(W)),
     % fill the quiver with arrows
-    assert(quiver(5)),
+    assertz(quiver(5)),
     % perform initial room assignment to trigger events/senses
     change_room(X),
     % debug info -----
