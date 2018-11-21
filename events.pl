@@ -23,6 +23,10 @@ defeat_wumpus :-
     target(Current),
     write("You were lucky this time..."), nl.
 
+empty_quiver :-
+    quiver(0),
+    write("You are as good as dead without arrows."), nl.
+
 game_over_check :-
     meet_wumpus,
     write("Game Over"), nl,
@@ -30,6 +34,10 @@ game_over_check :-
     fall_into_pit,
     write("Game Over"), nl,
     abort;
+    empty_quiver,
+    write("Game Over"), nl,
+    abort;
     defeat_wumpus,
     write("Victory is Yours"), nl,
     abort.
+

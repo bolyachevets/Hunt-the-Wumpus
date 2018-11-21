@@ -4,6 +4,7 @@
 :- [senses].
 :- [printer].
 :- [actions].
+:- [math_helpers].
 :- use_module(library(random)).
 
 :- prompt(_, 'Pick an adjacent room to explore: ').
@@ -34,9 +35,8 @@ play :-
     assertz(target(999)),
     % generate random starting point
     random_between(1, 20, X),
-    % pseudo random number for Wumpus, 'using' LCG algorithm
     % make sure that Wumpus does not start in the same room
-    W is (mod(X*37, 20) + 1),
+    random_location(X, W),
     % add location for Wumpus into KB
     assertz(wumpus(W)),
     % fill the quiver with arrows
