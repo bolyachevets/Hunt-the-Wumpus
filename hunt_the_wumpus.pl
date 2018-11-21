@@ -38,7 +38,21 @@ change_room(NewRoom) :-
     current_room(Current),
     retract(current_room(Current)),
     assertz(current_room(NewRoom)),
-    game_over_check; bat_attack.
+    events; senses_check.
+
+% senses --------------------------
+
+next_to_pit :-
+    current_room(Current),
+    connected(Current, X),
+    bottomless_pit(X),
+    write("I feel a breeze..."), nl.
+
+senses_check :- next_to_pit, print_room.
+
+
+% events ----------------------------
+events :- game_over_check; bat_attack.
 
 bat_attack :-
     bat_cave(Current),
