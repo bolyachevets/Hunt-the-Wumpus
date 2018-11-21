@@ -1,6 +1,7 @@
 :- [maze].
 :- [obstacles].
 :- [events].
+:- [senses].
 :- use_module(library(random)).
 
 :- prompt(_, 'Pick an adjacent room to explore: ').
@@ -40,16 +41,6 @@ change_room(NewRoom) :-
     retract(current_room(Current)),
     assertz(current_room(NewRoom)),
     events; senses_check.
-
-% senses --------------------------
-
-next_to_pit :-
-    current_room(Current),
-    connected(Current, X),
-    bottomless_pit(X),
-    write("I feel a breeze..."), nl.
-
-senses_check :- next_to_pit, print_room.
 
 play :-
     retractall(current_room(_)),

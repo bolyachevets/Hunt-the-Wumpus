@@ -1,4 +1,4 @@
-% events ----------------------------
+% ah, all the things that can happen to a traveler underground
 events :- game_over_check; bat_attack.
 
 bat_attack :-
