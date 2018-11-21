@@ -3,6 +3,7 @@
 :- [events].
 :- [senses].
 :- [printer].
+:- [actions].
 :- use_module(library(random)).
 
 :- prompt(_, 'Pick an adjacent room to explore: ').
@@ -20,13 +21,6 @@ process_input(NewRoom) :-
     change_room(NewRoom).
 
 process_input(_) :- print_room, nl.
-
-
-change_room(NewRoom) :-
-    current_room(Current),
-    retract(current_room(Current)),
-    assertz(current_room(NewRoom)),
-    events; senses_check.
 
 play :-
     retractall(current_room(_)),
