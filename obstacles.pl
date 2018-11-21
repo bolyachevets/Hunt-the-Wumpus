@@ -7,4 +7,3 @@ bottomless_pit(14).
 
 bat_cave(9).
 bat_cave(19).
-
