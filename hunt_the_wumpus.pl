@@ -58,8 +58,8 @@ play :-
     % perform initial room assignment to trigger events/senses
     change_room(X),
     % debug info -----
-    wumpus(W),
-    write("Wumpus: "),
-    print(W), nl,
+    %wumpus(W),
+    %write("Wumpus: "),
+    %print(W), nl,
     % ----------------
     get_input.
