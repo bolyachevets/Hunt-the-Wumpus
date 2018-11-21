@@ -19,8 +19,8 @@ meet_wumpus :-
     write("Noone can outwit the Wumpus..."), nl.
 
 defeat_wumpus :-
-    wumpus(Current),
-    target(Current),
+    wumpus(Aim),
+    target(Aim),
     write("You were lucky this time..."), nl.
 
 empty_quiver :-
