@@ -1,3 +1,5 @@
+:- use_module(library(random)).
+:- use_module(library(readln)).
 :- [maze].
 :- [obstacles].
 :- [events].
@@ -5,8 +7,6 @@
 :- [printer].
 :- [actions].
 :- [math_helpers].
-:- use_module(library(random)).
-:- use_module(library(readln)).
 
 :- prompt(_, 'go/shoot + room number: ').
 :- dynamic ([current_room/1,
