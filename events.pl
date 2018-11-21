@@ -16,7 +16,7 @@ fall_into_pit :-
 meet_wumpus :-
     wumpus(Current),
     current_room(Current),
-    write("Noone can outwit the Wumpus..."), nl.
+    write("Noone can outwit the Wumpus. You have succumbed to his prowess..."), nl.
 
 defeat_wumpus :-
     wumpus(Aim),

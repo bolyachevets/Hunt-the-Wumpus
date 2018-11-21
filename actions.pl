@@ -14,5 +14,7 @@ shoot_arrow(Aim) :-
     decr(Arrows, DecArrows),
     retract(quiver(Arrows)),
     assertz(quiver(DecArrows)),
+    print(DecArrows),
+    write(" arrows left..."), nl,
     events.
 
