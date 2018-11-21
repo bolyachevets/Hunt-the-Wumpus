@@ -18,10 +18,18 @@ meet_wumpus :-
     current_room(Current),
     write("Noone can outwit the Wumpus..."), nl.
 
+defeat_wumpus :-
+    wumpus(Current),
+    target(Current),
+    write("You were lucky this time..."), nl.
+
 game_over_check :-
     meet_wumpus,
     write("Game Over"), nl,
     abort;
     fall_into_pit,
     write("Game Over"), nl,
+    abort;
+    defeat_wumpus,
+    write("Victory is Yours"), nl,
     abort.
