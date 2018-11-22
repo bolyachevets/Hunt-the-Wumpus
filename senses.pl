@@ -49,5 +49,7 @@ senses_check :-
 
    next_to_bat_cave,
    write("I hear'em flapping..."), nl,
+   print_room;
+
    print_room.
 

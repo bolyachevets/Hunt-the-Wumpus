@@ -85,13 +85,3 @@ connected(9, 4).
 connected(4, 9).
 connected(4, 5).
 connected(5, 4).
-
-
-
-
-
-
-
-
-
-
