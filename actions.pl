@@ -13,7 +13,7 @@ shoot_arrow(Current, Targets) :-
     print(DecArrows),
     write(" arrows left..."), nl,
     retractall(energy(_)),
-    assertz(energy(5)),
+    assertz(energy(6)),
     arrow_pass_through(Current, Targets).
     
 arrow_pass_through(PreviousTarget, Targets) :-
@@ -27,13 +27,17 @@ arrow_pass_through(PreviousTarget, Targets) :-
 resolve_arrow(PreviousTarget, [Aim|NextTargets]) :- 
     energy(ArrowEnergy),
     ArrowEnergy > 0,
-    connected(PreviousTarget, Aim),
-    write("arrow is flying through room "),
-    print(Aim), nl,
-    (check_room_for_hit(Aim);
-    (list_empty(NextTargets, false),
-    ArrowEnergy > 0,
-    arrow_pass_through(Aim, NextTargets))).
+    (connected(PreviousTarget, Aim),
+        write("arrow is flying through room "),
+        print(Aim), nl,
+        (check_room_for_hit(Aim);
+        
+        (list_empty(NextTargets, false),
+        arrow_pass_through(Aim, NextTargets));
+        
+        write("arrow ran out of kinetic energy and crashed into the ground"), nl)
+    );
+        write("you hear the arrow slam into a wall"), nl.
     
 resolve_arrow(_, _) :-
     energy(ArrowEnergy),

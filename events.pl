@@ -19,8 +19,6 @@ meet_wumpus :-
     write("Noone can outwit the Wumpus. You have succumbed to his prowess..."), nl.
 
 defeat_wumpus :-
-    energy(EnergyLeft),
-    EnergyLeft > 0,
     wumpus(Aim),
     target(Aim),
     write("You were lucky this time..."), nl.
