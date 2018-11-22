@@ -27,13 +27,14 @@ arrow_pass_through(PreviousTarget, Targets) :-
 resolve_arrow(PreviousTarget, [Aim|NextTargets]) :- 
     energy(ArrowEnergy),
     ArrowEnergy > 0,
-    (connected(PreviousTarget, Aim),
+    map_room(Aim, ActualAim),
+    (connected(PreviousTarget, ActualAim),
         write("arrow is flying through room "),
         print(Aim), nl,
-        (check_room_for_hit(Aim);
+        (check_room_for_hit(ActualAim);
         
         (list_empty(NextTargets, false),
-        arrow_pass_through(Aim, NextTargets));
+        arrow_pass_through(ActualAim, NextTargets));
         
         write("arrow ran out of kinetic energy and crashed into the ground"), nl)
     );
