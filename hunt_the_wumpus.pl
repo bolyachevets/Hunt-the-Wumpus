@@ -13,7 +13,11 @@
              wumpus/1,
              quiver/1,
              energy/1,
-             target/1]).
+             target/1,
+             pit1/1,
+             pit2/1,
+             bat1/1,
+             bat2/1]).
 
 get_input :- readln(Input), get_input(Input), nl.
 get_input(Input) :- process_input(Input), get_input.
@@ -41,6 +45,11 @@ process_input(_) :-
 
 play :-
     % purge the KB
+    retractall(pit1(_)),
+    retractall(pit2(_)),
+    retractall(bat1(_)),
+    retractall(bat2(_)),
+
     retractall(wumpus(_)),
     retractall(target(_)),
     retractall(quiver(_)),
@@ -49,16 +58,35 @@ play :-
     % assign a dummy room at the start
     assertz(current_room(999)),
     assertz(target(999)),
-    % generate random starting point
-    random_between(1, 20, X),
-    % make sure that Wumpus does not start in the same room
-    random_location(X, W),
+
+    % 7 = 1 hunter + 1 wumpus + 2 pits + 2 bats
+    rooms_list(R),
+    sample_without_replacement(R, 6, Sample),
+    print(Sample), nl,
+
     % add location for Wumpus into KB
+    nth1(1, Sample, W),
     assertz(wumpus(W)),
+
     % fill the quiver with arrows
     assertz(quiver(5)),
+
+    % setup bottomless pits
+    nth1(3, Sample, P1),
+    nth1(4, Sample, P2),
+    assertz(pit1(P1)),
+    assertz(pit1(P2)),
+
+    % setup bat caves
+    nth1(5, Sample, B1),
+    nth1(6, Sample, B2),
+    assertz(bat1(B1)),
+    assertz(bat2(B2)),
+
     % perform initial room assignment to trigger events/senses
+    nth1(2, Sample, X),
     change_room(X),
+
     % debug info -----
     %wumpus(W),
     %write("Wumpus: "),
