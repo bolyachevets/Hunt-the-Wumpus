@@ -25,13 +25,15 @@ get_input(Input) :- process_input(Input), get_input.
 % move to a different room
 process_input([go, NewRoom]) :-
     current_room(Current),
-    connected(Current, NewRoom),
-    change_room(NewRoom).
+    map_room(NewRoom, ActualRoomNum),
+    connected(Current, ActualRoomNum),
+    change_room(ActualRoomNum).
 
 % shoot an arrow
 process_input([shoot, FirstRoom|OtherRooms]) :-
     current_room(Current),
-    connected(Current, FirstRoom),
+    map_room(FirstRoom, ActualRoomNum),
+    connected(Current, ActualRoomNum),
     shoot_arrow(Current, [FirstRoom|OtherRooms]).
 
 
@@ -55,6 +57,8 @@ play :-
     retractall(quiver(_)),
     retractall(current_room(_)),
 
+    retractall(rand_rooms(_)),
+
     % assign a dummy room at the start
     assertz(current_room(999)),
     assertz(target(999)),
@@ -63,6 +67,10 @@ play :-
     rooms_list(R),
     sample_without_replacement(R, 6, Sample),
     print(Sample), nl,
+
+    % set random room number mapping
+    sample_without_replacement(R, 20, RandRooms),
+    assertz(rand_rooms(RandRooms)),
 
     % add location for Wumpus into KB
     nth1(1, Sample, W),
