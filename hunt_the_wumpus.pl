@@ -12,12 +12,12 @@
 :- dynamic ([current_room/1,
              wumpus/1,
              quiver/1,
+             energy/1,
              target/1,
              pit1/1,
              pit2/1,
              bat1/1,
              bat2/1]).
-
 
 get_input :- readln(Input), get_input(Input), nl.
 get_input(Input) :- process_input(Input), get_input.
@@ -29,18 +29,11 @@ process_input([go, NewRoom]) :-
     change_room(NewRoom).
 
 % shoot an arrow
-process_input([shoot, NewRoom]) :-
+process_input([shoot, FirstRoom|OtherRooms]) :-
     current_room(Current),
-    connected(Current, NewRoom),
-    shoot_arrow(NewRoom).
-    
-% shoot a curved arrow (can pass through up to 2 rooms)
-process_input([shoot, NewRoom1, NewRoom2]) :-
-    current_room(Current),
-    connected(Current, NewRoom1),
-    connected(NewRoom1, NewRoom2),
-    (shoot_arrow(NewRoom1);
-    arrow_pass_through(NewRoom2)).
+    connected(Current, FirstRoom),
+    shoot_arrow(Current, [FirstRoom|OtherRooms]).
+
 
 % quit
 process_input([q]) :-
