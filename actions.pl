@@ -18,3 +18,10 @@ shoot_arrow(Aim) :-
     write(" arrows left..."), nl,
     events.
 
+arrow_pass_through(Aim) :-
+    % update target
+    target(Old),
+    retract(target(Old)),
+    assertz(target(Aim)),
+    events.
+

@@ -28,6 +28,14 @@ process_input([shoot, NewRoom]) :-
     current_room(Current),
     connected(Current, NewRoom),
     shoot_arrow(NewRoom).
+    
+% shoot a curved arrow (can pass through up to 2 rooms)
+process_input([shoot, NewRoom1, NewRoom2]) :-
+    current_room(Current),
+    connected(Current, NewRoom1),
+    connected(NewRoom1, NewRoom2),
+    (shoot_arrow(NewRoom1);
+    arrow_pass_through(NewRoom2)).
 
 % quit
 process_input([q]) :-
