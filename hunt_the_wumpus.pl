@@ -63,7 +63,7 @@ play :-
     assertz(current_room(999)),
     assertz(target(999)),
 
-    % 7 = 1 hunter + 1 wumpus + 2 pits + 2 bats
+    % 6 = 1 wumpus + 1 hunter + 2 pits + 2 bats
     rooms_list(R),
     sample_without_replacement(R, 6, Sample),
     print(Sample), nl,
