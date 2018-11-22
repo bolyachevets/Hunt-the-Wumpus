@@ -1,6 +1,7 @@
 % reference for dodecahedron vertex numbering scheme:
 % https://www.researchgate.net/figure/Numbering-scheme-for-the-vertices-of-the-dodecahedron-graph_fig1_234956394
 
+rooms_list([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]).
 
 room(1, 'Ocean of Dreams').
 room(2, 'Field of Doom').
