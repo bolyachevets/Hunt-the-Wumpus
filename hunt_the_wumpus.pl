@@ -63,36 +63,38 @@ play :-
     assertz(current_room(999)),
     assertz(target(999)),
 
-    % 6 = 1 wumpus + 1 hunter + 2 pits + 2 bats
+    % 5 = 2 pits + 2 bats + 1 hunter
     rooms_list(R),
-    sample_without_replacement(R, 6, Sample),
-    print(Sample), nl,
+    sample_without_replacement(R, 5, Sample),
+    %print(Sample), nl,
 
     % set random room number mapping
     sample_without_replacement(R, 20, RandRooms),
     assertz(rand_rooms(RandRooms)),
 
-    % add location for Wumpus into KB
-    nth1(1, Sample, W),
-    assertz(wumpus(W)),
-
     % fill the quiver with arrows
     assertz(quiver(5)),
 
     % setup bottomless pits
-    nth1(3, Sample, P1),
-    nth1(4, Sample, P2),
+    nth1(1, Sample, P1),
+    nth1(2, Sample, P2),
     assertz(pit1(P1)),
     assertz(pit1(P2)),
 
     % setup bat caves
-    nth1(5, Sample, B1),
-    nth1(6, Sample, B2),
+    nth1(3, Sample, B1),
+    nth1(4, Sample, B2),
     assertz(bat1(B1)),
     assertz(bat2(B2)),
 
+    % add location for Wumpus into KB
+    nth1(5, Sample, H),
+    random_location_for_wumpus(H, W),
+    assertz(wumpus(W)),
+    % debug
+    %write("Wampus is here: "), print(W), nl,
+
     % perform initial room assignment to trigger events/senses
-    nth1(2, Sample, X),
-    change_room(X),
-    
+    change_room(H),
+
     get_input.
