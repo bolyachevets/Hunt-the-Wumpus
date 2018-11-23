@@ -7,6 +7,10 @@ sample_without_replacement(Range, N, Sample) :-
     length(Sample, N),
     append(Sample, _, Permutation).
 
+% pseudo random number for Wumpus, 'using' LCG algorithm
+random_location_for_wumpus(X, NX) :-
+   NX is (mod(X*37, 20) + 1).
+
 index_of([Elem|_], Elem, 1):- !.
 index_of([_|Tail], Elem, Index):-
     index_of(Tail, Elem, Index1),
