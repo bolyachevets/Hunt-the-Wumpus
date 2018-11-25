@@ -17,7 +17,8 @@
              pit1/1,
              pit2/1,
              bat1/1,
-             bat2/1]).
+             bat2/1,
+             targetedRooms/2]).
 
 get_input :- readln(Input), get_input(Input), nl.
 get_input(Input) :- process_input(Input), get_input.
@@ -29,14 +30,15 @@ process_input([go, NewRoom]) :-
     connected(Current, ActualRoomNum),
     change_room(ActualRoomNum).
 
+
 % shoot an arrow
 process_input([shoot, FirstRoom|OtherRooms]) :-
     current_room(Current),
     map_room(FirstRoom, ActualRoomNum),
     connected(Current, ActualRoomNum),
+    track_targeted_rooms([FirstRoom|OtherRooms]),
     shoot_arrow(Current, [FirstRoom|OtherRooms]).
-
-
+    
 % quit
 process_input([q]) :-
     abort.
@@ -92,8 +94,8 @@ play :-
     random_location_for_wumpus(H, W),
     assertz(wumpus(W)),
     % debug
-    %write("Wampus is here: "), print(W), nl,
-
+    write("Wumpus is here: "), print(W), nl,
+    
     % perform initial room assignment to trigger events/senses
     change_room(H),
 

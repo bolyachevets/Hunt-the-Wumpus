@@ -4,6 +4,16 @@ change_room(NewRoom) :-
     assertz(current_room(NewRoom)),
     events; senses_check.
 
+track_targeted_rooms([FirstRoom|OtherRooms]) :-
+    retractall(targetedRooms(_)),
+    track_targeted_rooms_helper([FirstRoom|OtherRooms]).
+    
+track_targeted_rooms_helper([FirstRoom|OtherRooms]) :-
+    assertz(targetedRooms(FirstRoom)),
+    track_targeted_rooms_helper(OtherRooms).
+
+track_targeted_rooms_helper([]).
+    
 shoot_arrow(Current, Targets) :-
     % update arrow count
     quiver(Arrows),
@@ -14,7 +24,8 @@ shoot_arrow(Current, Targets) :-
     write(" arrows left..."), nl,
     retractall(energy(_)),
     assertz(energy(6)),
-    arrow_pass_through(Current, Targets).
+    arrow_pass_through(Current, Targets),
+    wumpus_listen_for_arrow.
     
 arrow_pass_through(PreviousTarget, Targets) :-
     % update target
@@ -36,7 +47,7 @@ resolve_arrow(PreviousTarget, [Aim|NextTargets]) :-
         (list_empty(NextTargets, false),
         arrow_pass_through(ActualAim, NextTargets));
         
-        write("arrow ran out of kinetic energy and crashed into the ground"), nl)
+        write("arrow missed the Wumpus."), nl)
     );
         write("you hear the arrow slam into a wall"), nl.
     

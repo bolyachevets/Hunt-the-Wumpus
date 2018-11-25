@@ -13,6 +13,32 @@ fall_into_pit :-
     current_room(Current),
     write("You have fallen into the bottomless pit..."), nl.
 
+wumpus_listen_for_arrow :-
+    wumpus(WumpusRoom),
+    write("The wumpus is here: "), print(WumpusRoom), nl,
+    (connected(Current, WumpusRoom),
+    current_room(Current),
+    write("The Wumpus' keen senses alerted it to your presence and pounced. You have succumbed to his prowess..."),
+    nl, write("Game Over"), nl,
+    abort);
+    (
+        assertz(targetedRooms(999)),
+        retract(targetedRooms(999)),
+        targetedRooms(Targeted),
+        %write("targed room: "), print(Targeted), nl,
+        connected(Targeted, WumpusRoom),
+        connected(NewRoom, WumpusRoom),
+        dif(NewRoom, Targeted),
+        wumpus_move(WumpusRoom, NewRoom)
+    ).
+    
+wumpus_move(OldRoom, NewRoom) :-
+    retract(wumpus(OldRoom)),
+    assertz(wumpus(NewRoom)),
+    write("Startled by an arrow whizzing through a nearby room, the Wumpus skittered over to a new room"), nl,
+    write("Wumpus is now at room: "), print(NewRoom),
+    nl.
+    
 meet_wumpus :-
     wumpus(Current),
     current_room(Current),
