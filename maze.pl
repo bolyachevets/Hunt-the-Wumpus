@@ -27,12 +27,12 @@ room(20, 'Elysium').
 % for testing
 % rand_rooms([13,8,3,6,17,16,1,5,9,7,4,20,2,10,11,19,18,14,15,12]).
 
-%map_room(Rand, Actual) :-
-%    rand_rooms(RandRooms),
-%    nth1(Actual, RandRooms, Rand).
+map_room(Rand, Actual) :-
+    rand_rooms(RandRooms),
+    nth1(Actual, RandRooms, Rand).
     
-% use this for debugging
-map_room(Actual, Actual).
+% comment out map_room above and uncomment map_room below to undo room scrambling for debugging
+%map_room(Actual, Actual).
     
 connected(X, Y):- connected_to(X, Y).
 connected(X, Y):- connected_to(Y, X).

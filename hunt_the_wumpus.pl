@@ -18,7 +18,7 @@
              pit2/1,
              bat1/1,
              bat2/1,
-             targetedRooms/2]).
+             targetedRooms/1]).
 
 get_input :- readln(Input), get_input(Input), nl.
 get_input(Input) :- process_input(Input), get_input.
@@ -36,7 +36,6 @@ process_input([shoot, FirstRoom|OtherRooms]) :-
     current_room(Current),
     map_room(FirstRoom, ActualRoomNum),
     connected(Current, ActualRoomNum),
-    track_targeted_rooms([FirstRoom|OtherRooms]),
     shoot_arrow(Current, [FirstRoom|OtherRooms]).
     
 % quit
@@ -56,7 +55,9 @@ play :-
 
     retractall(wumpus(_)),
     retractall(target(_)),
+    retractall(energy(_)),
     retractall(quiver(_)),
+    retractall(targetedRooms(_)),
     retractall(current_room(_)),
 
     retractall(rand_rooms(_)),
@@ -94,7 +95,9 @@ play :-
     random_location_for_wumpus(H, W),
     assertz(wumpus(W)),
     % debug
-    write("Wumpus is here: "), print(W), nl,
+    map_room(MW, W),
+    write("Wumpus is actually here: "), print(W), nl,
+    write("Wumpus is appears to be here: "), print(MW), nl,
     
     % perform initial room assignment to trigger events/senses
     change_room(H),
