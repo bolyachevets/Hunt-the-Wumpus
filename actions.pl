@@ -2,19 +2,20 @@ change_room(NewRoom) :-
     current_room(Current),
     retract(current_room(Current)),
     assertz(current_room(NewRoom)),
-    events; senses_check.
-
+    move_events; senses_check.
+    
 shoot_arrow(Current, Targets) :-
     % update arrow count
     quiver(Arrows),
     decr(Arrows, DecArrows),
     retract(quiver(Arrows)),
     assertz(quiver(DecArrows)),
-    print(DecArrows),
-    write(" arrows left..."), nl,
+    retractall(targetedRooms(_)),
     retractall(energy(_)),
     assertz(energy(6)),
-    arrow_pass_through(Current, Targets).
+    arrow_pass_through(Current, Targets),
+    quiver_check,
+    wumpus_listen_for_arrow.
     
 arrow_pass_through(PreviousTarget, Targets) :-
     % update target
@@ -28,7 +29,8 @@ resolve_arrow(PreviousTarget, [Aim|NextTargets]) :-
     energy(ArrowEnergy),
     ArrowEnergy > 0,
     map_room(Aim, ActualAim),
-    (connected(PreviousTarget, ActualAim),
+    connected(PreviousTarget, ActualAim),
+    (
         write("arrow is flying through room "),
         print(Aim), nl,
         (check_room_for_hit(ActualAim);
@@ -36,9 +38,16 @@ resolve_arrow(PreviousTarget, [Aim|NextTargets]) :-
         (list_empty(NextTargets, false),
         arrow_pass_through(ActualAim, NextTargets));
         
-        write("arrow ran out of kinetic energy and crashed into the ground"), nl)
-    );
-        write("you hear the arrow slam into a wall"), nl.
+        write("arrow missed the Wumpus."), nl)
+    ),
+    assertz(targetedRooms(ActualAim)),!.
+    
+resolve_arrow(PreviousTarget, [Aim|_]) :-
+    energy(ArrowEnergy),
+    ArrowEnergy > 0,
+    map_room(Aim, ActualAim),
+    \+ connected(PreviousTarget, ActualAim),
+    write("you hear the arrow slam into a wall"), nl,!.
     
 resolve_arrow(_, _) :-
     energy(ArrowEnergy),
@@ -49,7 +58,7 @@ check_room_for_hit(Aim) :-
     target(Old),
     retract(target(Old)),
     assertz(target(Aim)),
-    events.
+    defeat_wumpus_check.
     
 list_empty([], true).
 list_empty([_|_], false).

@@ -30,6 +30,10 @@ room(20, 'Elysium').
 map_room(Rand, Actual) :-
     rand_rooms(RandRooms),
     nth1(Actual, RandRooms, Rand).
+    
+% comment out map_room above and uncomment map_room below to undo room scrambling for debugging
+%map_room(Actual, Actual).
+    
 connected(X, Y):- connected_to(X, Y).
 connected(X, Y):- connected_to(Y, X).
 
