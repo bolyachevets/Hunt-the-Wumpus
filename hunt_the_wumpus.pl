@@ -91,7 +91,7 @@ setup_game :-
     random_location_for_wumpus(H, W),
     assertz(wumpus(W)),
     % debug
-    %write("Wampus is here: "), print(W), nl,
+    %write("Wumpus is here: "), print(W), nl,
 
     % perform initial room assignment to trigger events/senses
     change_room(H).
@@ -100,3 +100,91 @@ setup_game :-
 play :-
     setup_game,
     get_input.
+
+retractall_solver :-
+    retractall(has_bats(_, _)),
+    retractall(has_wumpus(_, _)),
+    retractall(has_pit(_, _)).
+
+solve :-
+    setup_game,
+    retractall_solver,
+    current_room(Current),
+    make_step([Current]).
+
+make_step(Visited) :- 
+    write("Visited list is "), print(Visited), nl,
+    udpate_kb, !,
+
+    (get_next_step(Visited, Room, go),
+     write("\nNext step is go "), print(Room), nl, nl,
+     change_room(Room),
+     make_step([Room|Visited]);
+     
+     get_next_step(Visited, Room, shoot),
+     write("\nNext step is shoot "), print(Room), nl, nl,
+     current_room(Current),
+     shoot_arrow(Current, [Room]),
+     events,
+     maybe_wumpus(no, Room),
+     make_step(Visited)).
+
+get_next_step(Visited, Room, shoot) :- 
+    current_room(Current),
+    connected(Room, Current),
+    dif(Current, Room),
+
+    has_wumpus(yes, Room),
+    \+ member(Room, Visited).
+
+get_next_step(Visited, Room, go) :-
+    current_room(Current),
+    connected(Room, Current),
+    dif(Current, Room),
+
+    has_wumpus(no, Room),
+    has_pit(no, Room),
+    \+ member(Room, Visited).
+
+udpate_kb :-
+    current_room(Current),
+    room_choices(Current, RoomNum1, RoomNum2, RoomNum3),
+
+    next_to_pit(Pit),
+    next_to_wumpus(Wumpus),
+    next_to_bat_cave(Bats),
+
+    write("[Pit, Wumpus, Bats] = "), print([Pit, Wumpus, Bats]), nl,
+
+    update_solver_perceptions(Pit, Wumpus, Bats, RoomNum1),
+    update_solver_perceptions(Pit, Wumpus, Bats, RoomNum2),
+    update_solver_perceptions(Pit, Wumpus, Bats, RoomNum3).
+
+update_solver_perceptions(Pit, Wumpus, Bats, RoomNum) :-
+    maybe_wumpus(Wumpus, RoomNum),
+    maybe_bats(Bats, RoomNum),
+    maybe_pit(Pit, RoomNum).
+
+maybe_wumpus(no, Room) :-
+    retractall(has_wumpus(_, Room)),
+    assertz(has_wumpus(no, Room)).
+
+maybe_wumpus(yes, Room) :-
+    retractall(has_wumpus(_, Room)),
+    assertz(has_wumpus(yes, Room)).
+
+maybe_pit(yes, Room) :-
+    retractall(has_pit(_, Room)),
+    assertz(has_pit(yes, Room)).
+
+maybe_pit(no, Room) :-
+    retractall(has_pit(_, Room)),
+    assertz(has_pit(no, Room)).
+
+maybe_bats(yes, Room) :-
+    retractall(has_bats(_, Room)),
+    assertz(has_bats(yes, Room)).
+
+maybe_bats(no, Room) :-
+    retractall(has_bats(_, Room)),
+    assertz(has_bats(no, Room)).

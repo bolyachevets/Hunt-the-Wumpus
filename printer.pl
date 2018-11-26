@@ -16,14 +16,9 @@ print_room :-
 print_choices :-
     % handle current room name
     current_room(Current),
+
     % handle adjacent room names
-    connected(Current, RoomNum1),
-    connected(Current, RoomNum2),
-    connected(Current, RoomNum3),
-    % make sure room names are unique
-    dif(RoomNum1, RoomNum2),
-    dif(RoomNum2, RoomNum3),
-    dif(RoomNum1, RoomNum3),
+    room_choices(Current, RoomNum1, RoomNum2, RoomNum3),
 
     map_room(NewRoom1, RoomNum1),
     map_room(NewRoom2, RoomNum2),
@@ -36,4 +31,14 @@ print_choices :-
     print(NewRoom2), nl,
     print(NewRoom3), nl.
 
-
+room_choices(Current, RoomNum1, RoomNum2, RoomNum3) :-
+    % handle current room name
+    current_room(Current),
+    % handle adjacent room names
+    connected(Current, RoomNum1),
+    connected(Current, RoomNum2),
+    connected(Current, RoomNum3),
+    % make sure room names are unique
+    dif(RoomNum1, RoomNum2),
+    dif(RoomNum2, RoomNum3),
+    dif(RoomNum1, RoomNum3).
