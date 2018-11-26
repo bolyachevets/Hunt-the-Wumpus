@@ -36,7 +36,6 @@ process_input([shoot, FirstRoom|OtherRooms]) :-
     connected(Current, ActualRoomNum),
     shoot_arrow(Current, [FirstRoom|OtherRooms]).
 
-
 % quit
 process_input([q]) :-
     abort.
@@ -45,7 +44,7 @@ process_input(_) :-
     write("Either go or shoot in the direction of: "), nl,
     print_choices, nl.
 
-play :-
+setup_game :-
     % purge the KB
     retractall(pit1(_)),
     retractall(pit2(_)),
@@ -95,6 +94,9 @@ play :-
     %write("Wampus is here: "), print(W), nl,
 
     % perform initial room assignment to trigger events/senses
-    change_room(H),
+    change_room(H).
 
+
+play :-
+    setup_game,
     get_input.
