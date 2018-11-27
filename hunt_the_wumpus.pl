@@ -17,7 +17,11 @@
              pit1/1,
              pit2/1,
              bat1/1,
-             bat2/1]).
+             bat2/1,
+             has_bats/2,
+             has_pit/2,
+             has_wumpus/2,
+             rand_rooms/1]).
 
 get_input :- readln(Input), get_input(Input), nl.
 get_input(Input) :- process_input(Input), get_input.
@@ -112,39 +116,53 @@ solve :-
     current_room(Current),
     make_step([Current]).
 
-make_step(Visited) :- 
+pre_step(Visited) :- 
     write("Visited list is "), print(Visited), nl,
-    udpate_kb, !,
+    udpate_kb,
+    make_step(Visited).
 
-    (get_next_step(Visited, Room, go),
-     write("\nNext step is go "), print(Room), nl, nl,
-     change_room(Room),
-     make_step([Room|Visited]);
-     
-     get_next_step(Visited, Room, shoot),
-     write("\nNext step is shoot "), print(Room), nl, nl,
-     current_room(Current),
-     shoot_arrow(Current, [Room]),
-     events,
-     maybe_wumpus(no, Room),
-     make_step(Visited)).
+make_step(Visited) :- 
+    get_next_step(Visited, Room, shoot),
+    write("\nNext step is shoot "), print(Room), nl, nl,
+    current_room(Current),
+    shoot_arrow(Current, [Room]),
+    events,
+    pre_step(Visited);
+
+    get_next_step(Visited, Room, go),
+    write("\nNext step is go "), print(Room), nl, nl,
+    change_room(Room),
+    pre_step([Room|Visited]).
 
 get_next_step(Visited, Room, shoot) :- 
     current_room(Current),
     connected(Room, Current),
     dif(Current, Room),
 
-    has_wumpus(yes, Room),
-    \+ member(Room, Visited).
+    (has_wumpus(yes, Room),
+     \+ member(Room, Visited);
+     
+     has_wumpus(yes, Room)).
 
 get_next_step(Visited, Room, go) :-
     current_room(Current),
     connected(Room, Current),
     dif(Current, Room),
 
-    has_wumpus(no, Room),
-    has_pit(no, Room),
-    \+ member(Room, Visited).
+    (has_wumpus(no, Room),
+     has_pit(no, Room),
+     has_bats(no, Room),
+     \+ member(Room, Visited);
+
+     has_wumpus(no, Room),
+     has_pit(no, Room),
+     \+ member(Room, Visited);
+
+     has_wumpus(no, Room),
+     \+ member(Room, Visited);
+
+     \+ member(Room, Visited)
+    ).
 
 udpate_kb :-
     current_room(Current),
@@ -159,6 +177,7 @@ udpate_kb :-
     update_solver_perceptions(Pit, Wumpus, Bats, RoomNum1),
     update_solver_perceptions(Pit, Wumpus, Bats, RoomNum2),
     update_solver_perceptions(Pit, Wumpus, Bats, RoomNum3).
+
 
 update_solver_perceptions(Pit, Wumpus, Bats, RoomNum) :-
     maybe_wumpus(Wumpus, RoomNum),
