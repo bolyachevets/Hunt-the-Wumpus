@@ -118,23 +118,24 @@ solve :-
 
 pre_step(Visited) :- 
     write("Visited list is "), print(Visited), nl,
-    udpate_kb,
+    udpate_kb, !,
     make_step(Visited).
 
 make_step(Visited) :- 
-    get_next_step(Visited, Room, shoot),
-    write("\nNext step is shoot "), print(Room), nl, nl,
+    agent_shoot_arrow(Visited),
     current_room(Current),
-    shoot_arrow(Current, [Room]),
+    room_choices(Current, RoomNum1, _, _),
+    write("\nNext step is shoot "), print(RoomNum1), nl, nl,
+    shoot_arrow(Current, [RoomNum1]),
     events,
     pre_step(Visited);
 
-    get_next_step(Visited, Room, go),
+    agent_change_room(Visited, Room),
     write("\nNext step is go "), print(Room), nl, nl,
     change_room(Room),
     pre_step([Room|Visited]).
 
-get_next_step(Visited, Room, shoot) :- 
+agent_shoot_arrow(Visited) :- 
     current_room(Current),
     connected(Room, Current),
     dif(Current, Room),
@@ -144,7 +145,7 @@ get_next_step(Visited, Room, shoot) :-
      
      has_wumpus(yes, Room)).
 
-get_next_step(Visited, Room, go) :-
+agent_change_room(Visited, Room) :-
     current_room(Current),
     connected(Room, Current),
     dif(Current, Room),
@@ -172,7 +173,7 @@ udpate_kb :-
     next_to_wumpus(Wumpus),
     next_to_bat_cave(Bats),
 
-    write("[Pit, Wumpus, Bats] = "), print([Pit, Wumpus, Bats]), nl,
+    % write("[Pit, Wumpus, Bats] = "), print([Pit, Wumpus, Bats]), nl,
 
     update_solver_perceptions(Pit, Wumpus, Bats, RoomNum1),
     update_solver_perceptions(Pit, Wumpus, Bats, RoomNum2),
