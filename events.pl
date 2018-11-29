@@ -1,5 +1,5 @@
 % ah, all the things that can happen to a traveler underground
-move_events :- game_over_check; bat_attack.
+move_events :- game_over_check; bat_attack; found_arrow.
 
 bat_attack :-
     bat_cave(Current),
@@ -60,9 +60,31 @@ quiver_check :-
     write(" arrows left..."), nl,!.
     
 quiver_check :-
+    lost_arrow(_),
+    quiver(ArrowsLeft),
+    ArrowsLeft = 0,
+    write("You have no more arrows left, maybe you are lucky to find one..."), nl, !.
+
+quiver_check :-
+    not(lost_arrow(_)),
+    quiver(ArrowsLeft),
+    ArrowsLeft < 1,
     write("You are as good as dead without arrows."), nl,
     write("Game Over"), nl,
     abort.
+
+found_arrow :-
+    current_room(Current),
+    lost_arrow(LA),
+    Current = LA,
+    quiver(Arrows),
+    incr(Arrows, IncArrows),
+    retract(quiver(Arrows)),
+    assertz(quiver(IncArrows)),
+    retractall(lost_arrow(_)),
+    senses_check,
+    write("You found an arrow!"), nl,
+    quiver_check.
 
 game_over_check :-
     meet_wumpus,
