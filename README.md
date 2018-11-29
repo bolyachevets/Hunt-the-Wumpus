@@ -19,4 +19,4 @@ Some additional rules are:
 
 The wumpus is too heavy to be carried by bats and is covered in suckers - he can’t fall down the pit.
 Shooting an arrow that does not hit the wumpus will startle it.
-The player has a total of 5 arrows. Running out of arrows is one of losing conditions.
+The player has a total of 5 arrows. An extra arrow can be found in one of the rooms. Running out of arrows is one of losing conditions.
