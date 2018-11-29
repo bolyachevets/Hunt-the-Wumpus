@@ -3,11 +3,20 @@ Hunt the Wumpus in Prolog: a group project for cpsc 312
 
 To start type: play.
 
-If facing adjacent room numbers 1, 2, 3 can do smth like this:
+Game control: type 'go' followed by room number to move to adjacent room; type 'shoot' followed by a sequence of connected rooms to shoot an arrow.
 
-go 1                % will move to room 1
-shoot 1             % will shoot in the direction of room 1
+The rules of the game can be found at: https://www.atariarchives.org/bcc1/showpage.php?page=247
 
-For now you can traverse the adjacent vertices of dodecahedron by selecting an appropriate room number from the 3 listed, followed by a period. Added pits, bats, wumpus. Hunter can sense nearby danger and shoot arrows. Can win by defeating the wumpus and lose by either falling in a pit, succuming to wumpus or running out of arrows.
+In a nutshell, we are controlling a hunter via text input. At each turn the player can take the following actions:
 
-TODO: see issues
+move to an adjacent room
+shoot an arrow in the direction of the adjacent rooms
+The hunter is facing 3 hazards and will be notified of the proximity to each via text output.
+
+In case of a bottomless pit you will 'feel a breeze nearby'. For a colony of bats that will pick you up and drop you in a random space you will 'hear flapping nearby'. For the ultimate danger of wumpus you will smell the unbearable stench.
+
+Some additional rules are:
+
+The wumpus is too heavy to be carried by bats and is covered in suckers - he can’t fall down the pit.
+Shooting an arrow that does not hit the wumpus will startle it.
+The player has a total of 5 arrows. Running out of arrows is one of losing conditions.
