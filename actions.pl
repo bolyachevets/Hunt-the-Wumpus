@@ -31,14 +31,16 @@ resolve_arrow(PreviousTarget, [Aim|NextTargets]) :-
     map_room(Aim, ActualAim),
     connected(PreviousTarget, ActualAim),
     (
-        write("arrow is flying through room "),
+        write("Arrow is flying through room "),
         print(Aim), nl,
-        (check_room_for_hit(ActualAim);
+        (   
+            check_room_for_hit(ActualAim);
+            
+            (list_empty(NextTargets, false),
+            arrow_pass_through(ActualAim, NextTargets));
         
-        (list_empty(NextTargets, false),
-        arrow_pass_through(ActualAim, NextTargets));
-        
-        write("arrow missed the Wumpus."), nl)
+        write("Arrow missed the Wumpus."), nl
+        )
     ),
     assertz(targetedRooms(ActualAim)),!.
     
@@ -47,18 +49,24 @@ resolve_arrow(PreviousTarget, [Aim|_]) :-
     ArrowEnergy > 0,
     map_room(Aim, ActualAim),
     \+ connected(PreviousTarget, ActualAim),
-    write("you hear the arrow slam into a wall"), nl,!.
+    write("You hear the arrow slam into a wall."), nl,!.
     
 resolve_arrow(_, _) :-
     energy(ArrowEnergy),
     ArrowEnergy is 0, 
-    write("arrow ran out of kinetic energy and crashed into the ground"), nl.
+    write("Arrow ran out of kinetic energy and crashed into the ground."), nl.
     
+check_room_for_hit(Aim) :-
+    current_room(Current),
+    Aim = Current,
+    write("You are so bad you managed to kill yourself..."), nl,
+    abort.
+
 check_room_for_hit(Aim) :-
     target(Old),
     retract(target(Old)),
     assertz(target(Aim)),
     defeat_wumpus_check.
-    
+
 list_empty([], true).
 list_empty([_|_], false).

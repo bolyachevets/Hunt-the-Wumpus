@@ -97,7 +97,7 @@ play :-
     % debug
     map_room(MW, W),
     write("Wumpus is actually here: "), print(W), nl,
-    write("Wumpus is appears to be here: "), print(MW), nl,
+    write("Wumpus appears to be here: "), print(MW), nl,
     
     % perform initial room assignment to trigger events/senses
     change_room(H),
