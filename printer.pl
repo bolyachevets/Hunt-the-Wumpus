@@ -11,7 +11,7 @@ print_room :-
     write("Known as "),
     print(Name), nl,
     write("From here tunnels lead to: "), nl,
-    print_choices.
+    print_choices, nl.
 
 print_choices :-
     % handle current room name

@@ -1,6 +1,10 @@
 % helper to decrement arrow count
-decr(X,NX) :-
+decr(X, NX) :-
     NX is (X-1).
+
+% helper to increment arrow count
+incr(X, NX) :-
+    NX is (X+1).
 
 sample_without_replacement(Range, N, Sample) :-
     random_permutation(Range, Permutation),

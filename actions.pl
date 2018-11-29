@@ -3,7 +3,7 @@ change_room(NewRoom) :-
     retract(current_room(Current)),
     assertz(current_room(NewRoom)),
     move_events; senses_check.
-    
+
 shoot_arrow(Current, Targets) :-
     % update arrow count
     quiver(Arrows),
@@ -16,7 +16,7 @@ shoot_arrow(Current, Targets) :-
     arrow_pass_through(Current, Targets),
     quiver_check,
     wumpus_listen_for_arrow.
-    
+
 arrow_pass_through(PreviousTarget, Targets) :-
     % update target
     energy(ArrowEnergy),
