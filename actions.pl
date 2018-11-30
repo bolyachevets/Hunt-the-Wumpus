@@ -59,6 +59,7 @@ resolve_arrow(_, _) :-
 check_room_for_hit(Aim) :-
     current_room(Current),
     Aim = Current,
+    write("Your eyes widen in shock as your own arrow came whizzing back slamming into your chest!"), nl,
     write("You are so bad you managed to kill yourself..."), nl,
     abort.
 

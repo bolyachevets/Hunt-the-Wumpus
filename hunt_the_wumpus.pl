@@ -59,6 +59,22 @@ process_invalid_input :-
     print_choices, nl.
 
 play :-
+    write("You are a brave hunter aiming to take down the fearsome Wumpus."), nl,
+    write("You will need to seek it out in this twisting maze."), nl,
+    write("enter 'go x' where x is one of the adjacent room numbers to explore."), nl, nl,
+    
+    write("Be wary of not only the Wumpus but also of giant bats and bottomless pits."), nl,
+    write("Trust your senses, they will alert you when danger is near."), nl, nl,
+    
+    write("You have your trusty bow and 5 arrows in your quiver, use them wisely."), nl,
+    write("You also have the special skill of shooting arrows through a curved path of up to five connected rooms."), nl,
+    write("To do so, enter 'shoot a b c d e' where a b c d and e are adjacent room numbers."), nl, nl,
+    
+    write("The Wumpus is cunning. If you fire an arrow and miss your target:"), nl,
+    write("   If the Wumpus is nearby, it will hunt you down."), nl,
+    write("   If the Wumpus is far away but hears the arrow, it will escape to another room."), nl,
+    write("Best of luck, and happy hunting!"), nl, nl,
+    
     % purge the KB
     retractall(pit1(_)),
     retractall(pit2(_)),
@@ -112,12 +128,12 @@ play :-
     nth1(6, Sample, LA),
     assertz(lost_arrow(LA)),
 
-    % debug
-    map_room(MW, W),
-    map_room(MLA, LA),
-    write("Wumpus is actually here: "), print(W), nl,
-    write("Wumpus appears to be here: "), print(MW), nl,
-    write("Lost arrow is here: "), print(MLA), nl,
+    % uncomment the "map_room" and "write" calls below for debugging purposes
+    %map_room(MW, W),
+    %map_room(MLA, LA),
+    %write("Wumpus is actually here: "), print(W), nl,
+    %write("Wumpus appears to be here: "), print(MW), nl,
+    %write("Lost arrow is here: "), print(MLA), nl,
     
     % perform initial room assignment to trigger events/senses
     change_room(H),

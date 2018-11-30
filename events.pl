@@ -15,7 +15,7 @@ fall_into_pit :-
 
 wumpus_listen_for_arrow :-
     wumpus(WumpusRoom),
-    write("The wumpus is here: "), print(WumpusRoom), nl,
+    %write("The wumpus is here: "), print(WumpusRoom), nl,
     (
         connected(Current, WumpusRoom),
         current_room(Current),
@@ -38,7 +38,7 @@ wumpus_move(OldRoom, NewRoom) :-
     retract(wumpus(OldRoom)),
     assertz(wumpus(NewRoom)),
     write("Startled by an arrow whizzing through a nearby room, the Wumpus skittered over to a new room"), nl,
-    write("Wumpus is now at room: "), print(NewRoom),
+    %write("Wumpus is now at room: "), print(NewRoom),
     nl.
     
 meet_wumpus :-
